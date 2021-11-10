@@ -1,0 +1,64 @@
+1.1 
+DELETE from Postac WHERE Nazwa='Bratan';
+DELETE from Postac WHERE Nazwa='Montana';
+
+1.2
+ALTER TABLE Postac DROP FOREIGN KEY Postac_ibfk_1;
+ALTER TABLE Walizka DROP FOREIGN KEY Walizka_ibfk_1;
+ALTER TABLE Przetwory DROP FOREIGN KEY Przetwory_ibfk_1;
+ALTER TABLE Przetwory DROP FOREIGN KEY Przetwory_ibfk_2;
+ALTER TABLE Postac MODIFY id_postaci int;
+ALTER TABLE Postac DROP PRIMARY KEY;
+
+2.1
+ALTER TABLE Postac ADD COLUMN Pesel CHAR(11);
+UPDATE Postac SET Pesel='19876543210' + id_postaci; 
+ALTER TABLE Postac ADD PRIMARY KEY(Pesel);
+
+2.2
+ALTER TABLE Postac MODIFY Rodzaj ENUM('wiking','ptak','kobieta','syrena');
+
+2.3
+INSERT INTO Postac VALUES
+	('10','Gertruda_Nieszczera','4', '1988-04-10','22',default,'grzmot','19876543223');
+
+3.1
+UPDATE Postac SET Statek='Mjolnir' WHERE Nazwa='Bjorn';
+UPDATE Postac SET Statek='Mjolnir' WHERE Nazwa LIKE '%a%';
+
+3.2
+UPDATE Statek SET Max_ladownosc='Max_ladownosc*0,7' WHERE Data_wodowania >= '1901-01-01' AND Data_wodowania <= '2000-12-31';
+
+3.3
+ALTER TABLE Postac ADD CHECK (wiek>=1000);
+ALTER TABLE Postac ADD CONSTRAINT chk_wiek CHECK (wiek>=1000);
+
+
+4.1
+INSERT INTO Postac VALUES
+('10','Loko','5','1856-02-27','216','','','32141212341');
+ALTER TABLE Postac MODIFY Rodzaj ENUM ('wiking','ptak','kobieta','syrena','waz');
+
+4.2
+CREATE TABLE Marynarz LIKE Postac; lub CREATE TABLE Marynarz SELECT * FROM Postac;
+INSERT INTO Marynarz SELECT * FROM Postac WHERE Statek IS NOT NULL;
+
+5.1
+UPDATE Postac SET statek=NULL;
+
+5.2
+DELETE FROM Postac WHERE Pesel = '12345678918';
+
+5.3
+DELETE FROM statek WHERE nazwa='Mjolnir' AND nazwa='grzmot' AND nazwa='piorun';
+
+5.4
+DROP TABLE Statek;
+
+5.5
+CREATE TABLE Zwierz (id_zwierza int AUTO_INCREMENT PRIMARY KEY,nazwa varchar(50),wiek int);
+
+5.6
+INSERT INTO Zwierz VALUES
+('','drozd','14'),
+('','Loko','21');
