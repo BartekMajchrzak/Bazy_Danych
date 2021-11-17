@@ -1,0 +1,67 @@
+ZADANIE 1
+1.CREATE TABLE Postac (id_postaci INT PRIMARY KEY AUTO_INCREMENT, Nazwa VARCHAR(40), Rodzaj ENUM('wiking','ptak','kobieta'), Data_ur DATE, Wiek INT UNSIGNED);
+
+2.INSERT INTO Postac VALUES
+	(default, 'Bjorn', '1', '1980-10-12', '41'),
+	(default, 'Drozd', '2', '2007-08-23', '13'),
+	(default, 'Tesciowa', '3', '1940-12-31', '81');
+
+3. UPDATE Postac SET Wiek=88 WHERE Rodzaj='kobieta';
+
+ZADANIE 2
+
+1.CREATE TABLE Walizka (id_walizki INT PRIMARY KEY AUTO_INCREMENT, Pojemnosc INT UNSIGNED, Kolor SET('Rozowy','Czerwony','Teczowy','zolty'), id_wlasciciela INT, FOREIGN KEY (id_wlasciciela) REFERENCES Postac(id_postaci) ON DELETE CASCADE);
+
+2.ALTER TABLE Walizka ALTER Kolor SET DEFAULT 'Rozowy';
+
+3.INSERT INTO Walizka VALUES
+	(default, '20', default, '1'),
+	(default, '20', default, '3');
+
+ZADANIE 3
+
+1. CREATE TABLE Izba (Adres_budynku INT, Nazwa_izby VARCHAR(20), PRIMARY KEY(adres_budynku,nazwa_izby), Metraz INT UNSIGNED, Wlasciciel INT, FOREIGN KEY (Wlasciciel) REFERENCES Postac(id_postaci) ON DELETE SET NULL);
+
+2.ALTER TABLE Izba ADD COLUMN Kolor_izby VARCHAR(20) AFTER Metraz;
+	ALTER TABLE Izba ALTER Kolor_izby SET DEFAULT 'Czarny';
+
+3.INSERT INTO Izba VALUES('1','Spizarnia','125',default,'1');
+
+Zadanie 4
+
+1. CREATE TABLE Przetwory(id_przetworu INT PRIMARY KEY, rok_produkcji INT(4) DEFAULT '1654', id_wykonawcy INT , FOREIGN KEY (id_wykonawcy) REFERENCES Postac(id_postaci), Zawartosc VARCHAR(255), Dodatek VARCHAR (255) DEFAULT 'Papryczka chilli', id_konsumenta INT, FOREIGN KEY (id_konsumenta) REFERENCES Postac(id_postaci));
+
+2.INSERT INTO Przetwory VALUES('1', default, '1', 'Bigos z papryczka chilli', default, '5');
+
+Zadanie 5
+
+1.INSERT INTO Postac VALUES
+	(default, 'Malik', '1', '1987-11-22', '34'),
+	(default, 'Josef', '1', '1989-12-26', '32'),
+	(default, 'Alberto', '1', '1997-09-25', '24'),
+	(default, 'Bratan', '1', '1977-08-24', '44'),
+	(default, 'Montana', '1', '1967-07-23', '54');
+
+2. CREATE TABLE Statek(Nazwa_statku VARCHAR(50) PRIMARY KEY, Rodzaj_statku  SET ('lodka', 'boja'), Data_wodowania DATE, Max_ladownosc INT UNSIGNED);
+
+3. INSERT INTO Statek VALUES
+	('piorun', '1', '2002-04-13', '1200'),
+	('grzmot', '2', '2003-05-16', '400');
+
+4.ALTER TABLE Postac ADD COLUMN Funkcja VARCHAR(100);
+
+5.UPDATE Postac SET Funkcja="Kapitan" WHERE Nazwa="Bjorn";
+
+6.ALTER TABLE Postac ADD COLUMN Statek VARCHAR(100);
+	ALTER TABLE Postac ADD FOREIGN KEY (Statek) REFERENCES Statek(Nazwa_statku);
+
+7.UPDATE Postac SET Statek='piorun' WHERE Nazwa='Malik';
+UPDATE Postac SET Statek='piorun' WHERE Nazwa='Josef';
+UPDATE Postac SET Statek='piorun' WHERE Nazwa='Alberto';
+UPDATE Postac SET Statek='grzmot' WHERE Nazwa='Bratan';
+UPDATE Postac SET Statek='grzmot' WHERE Nazwa='Montana';
+UPDATE Postac SET Statek='grzmot' WHERE Nazwa='Drozd';
+
+8.DELETE FROM Izba WHERE Nazwa_izby="Spizarnia"; 
+
+9.DROP TABLE Izba;
